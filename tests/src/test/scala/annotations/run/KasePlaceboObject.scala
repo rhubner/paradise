@@ -1,6 +1,8 @@
 package kase.placebo.objekt
 
-import org.scalatest.FunSuite
+import org.junit.Test
+import org.junit.Assert.assertThat
+import org.hamcrest.CoreMatchers._
 import scala.reflect.runtime.universe._
 import pkg._
 
@@ -10,7 +12,7 @@ import pkg._
 @kase object CPreToplevelPostcomp
 @placebo class CPreToplevelPostcomp
 
-class KasePlaceboObject extends FunSuite {
+class KasePlaceboObject {
   val objects = scala.collection.mutable.ListBuffer[Any]()
   objects += CPreToplevelNocomp
   objects += CPreToplevelPrecomp
@@ -37,7 +39,8 @@ class KasePlaceboObject extends FunSuite {
   // @kase object CPostMemberPostcomp
   // @placebo class CPostMemberPostcomp
 
-  test("combo") {
+  @Test
+  def testCombo(): Unit = {
     @kase object CPreLocalNocomp
     @placebo class CPreLocalPrecomp
     @kase object CPreLocalPrecomp
@@ -55,7 +58,7 @@ class KasePlaceboObject extends FunSuite {
     @kase object CPostLocalPostcomp
     @placebo class CPostLocalPostcomp
 
-    assert(objects.mkString("\n") === """
+    assertThat(objects.mkString("\n"), is("""
       |CPreToplevelNocomp
       |CPreToplevelPrecomp
       |CPreToplevelPostcomp
@@ -68,7 +71,7 @@ class KasePlaceboObject extends FunSuite {
       |CPostLocalNocomp
       |CPostLocalPrecomp
       |CPostLocalPostcomp
-    """.trim.stripMargin)
+    """.trim.stripMargin))
   }
 }
 

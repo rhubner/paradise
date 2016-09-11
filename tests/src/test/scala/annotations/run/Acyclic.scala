@@ -1,21 +1,29 @@
-import org.scalatest.FunSuite
-import scala.reflect.runtime.universe._
+import org.junit.Assert.assertThat
+import org.hamcrest.CoreMatchers._
+import org.junit.Test
 
-class Acyclic extends FunSuite {
-  test("A") {
+class Acyclic {
+
+
+  @Test
+  def A {
     import acyclica._
-    assert(C.toString === "C")
-    assert(D.toString === "D")
-    assert(new CX().toString === "CX")
-    assert(new DX().toString === "DX")
+    assertThat(C.toString, is("C"))
+    assertThat(D.toString, is("D"))
+    assertThat(new CX().toString, is("CX"))
+    assertThat(new DX().toString, is("DX"))
   }
-  test("B") {
+
+  @Test
+  def B {
     import acyclicb._
-    assert(CC.x.toString === "DX")
-    assert(DD.x.toString === "CX")
+    assertThat(CC.x.toString, is("DX"))
+    assertThat(DD.x.toString, is("CX"))
   }
-  test("C") {
-    import Module4._
-    @identity4 class C4
-  }
+//
+//  @Test
+//  def C {
+//    import Module4._
+//    @identity4 class C4
+//  }
 }

@@ -1,4 +1,6 @@
-import org.scalatest.FunSuite
+import org.junit.Assert.assertThat
+import org.hamcrest.CoreMatchers._
+import org.junit.Test
 import scala.reflect.runtime.universe._
 
 @kase object KaseObjectPreToplevelNocomp
@@ -7,7 +9,7 @@ class KaseObjectPreToplevelPrecomp
 @kase object KaseObjectPreToplevelPostcomp
 class KaseObjectPreToplevelPostcomp
 
-class KaseObject extends FunSuite {
+class KaseObject {
   val objects = scala.collection.mutable.ListBuffer[Any]()
   objects += KaseObjectPreToplevelNocomp
   objects += KaseObjectPreToplevelPrecomp
@@ -34,7 +36,8 @@ class KaseObject extends FunSuite {
   // @kase object KaseObjectPostMemberPostcomp
   // class KaseObjectPostMemberPostcomp
 
-  test("combo") {
+  @Test
+  def testCombo(): Unit = {
     @kase object KaseObjectPreLocalNocomp
     class KaseObjectPreLocalPrecomp
     @kase object KaseObjectPreLocalPrecomp
@@ -52,7 +55,7 @@ class KaseObject extends FunSuite {
     @kase object KaseObjectPostLocalPostcomp
     class KaseObjectPostLocalPostcomp
 
-    assert(objects.mkString("\n") === """
+    assertThat(objects.mkString("\n"), is("""
       |KaseObjectPreToplevelNocomp
       |KaseObjectPreToplevelPrecomp
       |KaseObjectPreToplevelPostcomp
@@ -65,7 +68,7 @@ class KaseObject extends FunSuite {
       |KaseObjectPostLocalNocomp
       |KaseObjectPostLocalPrecomp
       |KaseObjectPostLocalPostcomp
-    """.trim.stripMargin)
+    """.trim.stripMargin))
   }
 }
 

@@ -1,6 +1,8 @@
 package kase.identity.objekt
 
-import org.scalatest.FunSuite
+import org.junit.Assert.assertThat
+import org.hamcrest.CoreMatchers._
+import org.junit.Test
 import scala.reflect.runtime.universe._
 import pkg._
 
@@ -10,7 +12,7 @@ import pkg._
 @kase object CPreToplevelPostcomp
 @identity class CPreToplevelPostcomp
 
-class KaseIdentityObject extends FunSuite {
+class KaseIdentityObject {
   val objects = scala.collection.mutable.ListBuffer[Any]()
   objects += CPreToplevelNocomp
   objects += CPreToplevelPrecomp
@@ -37,7 +39,8 @@ class KaseIdentityObject extends FunSuite {
   // @kase object CPostMemberPostcomp
   // @identity class CPostMemberPostcomp
 
-  test("combo") {
+  @Test
+  def testCombo =  {
     @kase object CPreLocalNocomp
     @identity class CPreLocalPrecomp
     @kase object CPreLocalPrecomp
@@ -55,7 +58,7 @@ class KaseIdentityObject extends FunSuite {
     @kase object CPostLocalPostcomp
     @identity class CPostLocalPostcomp
 
-    assert(objects.mkString("\n") === """
+    assertThat(objects.mkString("\n"), is("""
       |CPreToplevelNocomp
       |CPreToplevelPrecomp
       |CPreToplevelPostcomp
@@ -68,7 +71,7 @@ class KaseIdentityObject extends FunSuite {
       |CPostLocalNocomp
       |CPostLocalPrecomp
       |CPostLocalPostcomp
-    """.trim.stripMargin)
+    """.trim.stripMargin))
   }
 }
 

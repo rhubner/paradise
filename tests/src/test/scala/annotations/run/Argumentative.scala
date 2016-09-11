@@ -1,9 +1,15 @@
-import org.scalatest.FunSuite
-import scala.reflect.runtime.universe._
 
-class Argumentative extends FunSuite {
-  test("combo") {
+import org.junit.Assert.assertThat
+import org.hamcrest.CoreMatchers._
+import org.junit.Test
+
+class Argumentative  {
+
+  @Test
+  def combo = {
     @argumentative(1, 2) object X
-    assert(X.toString === "1 2")
+
+    assertThat(X.toString, is("1 2"))
+
   }
 }

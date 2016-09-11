@@ -6,7 +6,7 @@ import scala.language.higherKinds
   def pure[A](x: A): F[A]
 }
 
-class Test {
+class TestSimulacrum {
   @simulacrum def no1 = ???
   /** 1 */ @simulacrum def yes1 = ???
 

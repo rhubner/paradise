@@ -1,4 +1,6 @@
-import org.scalatest.FunSuite
+import org.junit.Assert.assertThat
+import org.hamcrest.CoreMatchers._
+import org.junit.Test
 import scala.reflect.runtime.universe._
 
 @kase class KaseClassPreToplevelNocomp[T](x: T, y: Int = 2)(z: Boolean, w: String = "")
@@ -7,7 +9,7 @@ object KaseClassPreToplevelPrecomp
 @kase class KaseClassPreToplevelPostcomp[T](x: T, y: Int = 2)(z: Boolean, w: String = "")
 object KaseClassPreToplevelPostcomp
 
-class KaseClass extends FunSuite {
+class KaseClass {
   val objects = scala.collection.mutable.ListBuffer[Any]()
   objects += KaseClassPreToplevelNocomp(42)(true)
   objects += KaseClassPreToplevelPrecomp(42)(true)
@@ -33,7 +35,8 @@ class KaseClass extends FunSuite {
   @kase class KaseClassPostMemberPostcomp[T](x: T, y: Int = 2)(z: Boolean, w: String = "")
   object KaseClassPostMemberPostcomp
 
-  test("combo") {
+  @Test
+  def testCombo {
     @kase class KaseClassPreLocalNocomp[T](x: T, y: Int = 2)(z: Boolean, w: String = "")
     object KaseClassPreLocalPrecomp
     @kase class KaseClassPreLocalPrecomp[T](x: T, y: Int = 2)(z: Boolean, w: String = "")
@@ -51,7 +54,7 @@ class KaseClass extends FunSuite {
     @kase class KaseClassPostLocalPostcomp[T](x: T, y: Int = 2)(z: Boolean, w: String = "")
     object KaseClassPostLocalPostcomp
 
-    assert(objects.mkString("\n") === """
+    assertThat(objects.mkString("\n"), is("""
       |KaseClassPreToplevelNocomp(42,2)
       |KaseClassPreToplevelPrecomp(42,2)
       |KaseClassPreToplevelPostcomp(42,2)
@@ -70,7 +73,7 @@ class KaseClass extends FunSuite {
       |KaseClassPostLocalNocomp(42,2)
       |KaseClassPostLocalPrecomp(42,2)
       |KaseClassPostLocalPostcomp(42,2)
-    """.trim.stripMargin)
+    """.trim.stripMargin))
   }
 }
 

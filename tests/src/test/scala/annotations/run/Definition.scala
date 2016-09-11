@@ -1,9 +1,12 @@
-import org.scalatest.FunSuite
-import scala.reflect.runtime.universe._
+import org.junit.Assert.assertThat
+import org.hamcrest.CoreMatchers._
+import org.junit.Test
 import scala.reflect.runtime.{currentMirror => cm}
 
-class Definition extends FunSuite {
-  test("macro annotations get the MACRO flag") {
-    assert(cm.staticClass("identity").isMacro === true)
+class Definition {
+
+  @Test
+  def macroAnnotationsGetTheMACROflag = {
+    assertThat(cm.staticClass("identity").isMacro, is(true))
   }
 }
